@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>プライバシーポリシー | Jazz Study Video Automation</title>
+<meta name="description" content="Jazz Study Video Automation は、所有者本人がWindows PCで利用するYouTubeチャンネル接続確認ツールです。">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header><a class="brand" href="index.html">Jazz Study<br><span>Video Automation</span></a><nav aria-label="主なページ"><a href="index.html">アプリについて</a><a href="privacy.html" aria-current="page">プライバシー</a><a href="terms.html">利用条件</a></nav></header>
+<main>
+<div class="document"><p class="eyebrow">PRIVACY</p><h1>プライバシーポリシー</h1><p class="lead">現在の接続確認版で扱う情報と、<br>その利用・保存・削除について。</p>
+<section><h2>1. 対象と運営者</h2><p>このポリシーは、Jazz Study Video Automation の個人用Windows接続確認ツールと、その説明サイトに適用されます。運営者はGitHubアカウント「yuta0930oss-hub」の開発者です。本ツールはYouTube API Servicesを利用します。</p></section>
+<section><h2>2. 取得する情報と目的</h2><p>本人がGoogleの認可画面で許可した <code>https://www.googleapis.com/auth/youtube.readonly</code> の範囲で、YouTube Data API の <code>channels.list(part="id,snippet", mine=True)</code> を実行します。API応答として、チャンネルIDとsnippet情報（名称、説明、カスタムURL、作成日時、サムネイル画像URL、言語・地域など、YouTubeが返す項目）および応答メタデータをメモリ内で受信します。返却項目はチャンネルにより異なります。現在は応答のfieldsによる絞り込みを行っていません。照合と結果保存に使うチャンネル情報はIDと名称だけで、その他のsnippet情報やAPI応答全体は保存しません。画像URLから画像を追加取得する処理もありません。取得した情報は、設定したチャンネルとの照合、接続確認、障害の調査のために使用します。</p><p>Google OAuthのアクセストークンと更新トークンを、APIへの認証と接続の継続に使用します。Googleアカウントのパスワードを本ツールが収集することはありません。</p><p>ローカルの結果JSONには、チャンネルID・名称、要求・許可スコープ、実行日時、成功・失敗、機密値を除いたエラー分類、Windows・Python情報、ローカルパス、プロセスID、アクセス権の確認結果などを記録します。初回接続用スクリプトは認証JSONのファイル名・所在も記録しますが、JSONの秘密値は記録しません。標準出力には結果ファイルの保存先と成否を表示します。トークン値、認証コード、認証URL、クライアントシークレット、例外の詳細は、これらの検証結果やログへ出力しない実装です。</p></section>
+<section><h2>3. 保存方法</h2><p>認証トークンは、所有者のWindows PC上で現在ユーザー用のWindows DPAPIを使って暗号化して保存します。保存先のアクセス権は本人とSYSTEMに限定します。暗号化する資格情報には、アクセストークン・更新トークン、有効期限、OAuthクライアントIDとクライアントシークレット、トークンエンドポイント、スコープ、および公式ライブラリの再接続用情報を含みます。保存データにはプロジェクト識別子・照合先チャンネルID・確認済みスコープも含みます。元のDesktop OAuth認証JSONは本人がWindowsに保存したファイルから読み込み、保護ファイルとは別に本人が管理します。暗号化は現在ユーザー用で、コンピューター全体に結び付ける方式は使いません。暗号化済みの一時ファイルを使って原子的に置換し、更新応答に新しい更新トークンがない場合も既存値を保持します。平文のトークンファイルや平文の一時ファイルは作りません。取得結果や検証記録は本人のPC内で管理し、保存期間による自動削除は行いません。</p><p>説明サイトにチャンネルの取得結果、認証JSON、アクセストークン、更新トークン、実行ログを配置しません。同じWindowsユーザーで動く別のプロセスからの利用まで、この暗号化が防ぐものではありません。</p></section>
+<section><h2>4. 外部サービスと共有</h2><p>認証とAPI処理のために、必要な情報をGoogle・YouTubeへ送信します。Google側のデータ処理は<a href="https://policies.google.com/privacy">Googleプライバシーポリシー</a>をご確認ください。</p><p>本ツールはGoogleから取得したユーザーデータを販売せず、広告配信、一般的なAIモデルの学習、Sunoでの音楽生成の入力には使用しません。Google APIから受け取る情報の利用と他アプリへの転送には、Limited Useの要件を含む<a href="https://developers.google.com/terms/api-services-user-data-policy">Google API Services User Data Policy</a>に従います。</p><p>本人が問い合わせや開発支援のために検証結果を共有する場合は、目的に必要な情報に限定し、認証トークンを含めません。</p></section>
+<section><h2>5. 保存期間と削除</h2><p>接続に必要なトークンは、利用を継続する間、本人のWindows PC内で保持します。現在のプログラムには、保存期間の自動管理、30日ごとの自動更新・削除、削除ボタン、削除依頼の自動処理は実装していません。保存したチャンネル情報を含む検証記録も、明示的な手動対応まで残ります。</p><p>保存期間は所有者が手動で管理します。YouTube APIの保存データについては、適用される<a href="https://developers.google.com/youtube/terms/developer-policies">YouTube API Services Developer Policies</a>に従い、必要な情報を30日以内に更新するか、不要となった情報を削除する対応が必要です。この期限管理をプログラムが自動で保証するものではありません。</p><p>利用を終了する場合はツールを停止し、Google側のアクセス許可を取り消してください。そのうえで所有者が、ローカルの<code>_credentials/credentials.dpapi</code>、残っている暗号化済み一時ファイル、およびチャンネル情報を含む<code>evidence</code>内の結果JSON・関連するコピーを特定し、保存・保全条件を確認して手動で削除します。元のOAuth認証JSONは別管理のファイルで、接続解除や保護ファイルの削除だけでは消えません。現在、この削除を実行する専用コマンドはありません。</p><p>削除依頼は下記のメール連絡先で受け付け、対象を確認して、できるだけ速やかに、依頼から7日以内に手動で対応します。受付・本人確認・削除の自動化機能はありません。ローカルデータの削除は、YouTube上のチャンネルや動画を削除する操作ではありません。</p></section>
+<section><h2>6. Googleとの接続解除</h2><p><a href="https://myaccount.google.com/connections">Googleアカウントのサードパーティ接続管理</a>から、本アプリへのアクセス許可を取り消せます。Google側での取り消しだけでは、本人のPCにある保護ファイルや取得データは自動削除されません。所有者がこれらを特定し、できるだけ速やかに、取り消しから7日以内に手動で削除します。接続解除の自動検知と自動削除は未実装です。</p></section>
+<section><h2>7. 説明サイトへのアクセス</h2><p>この説明サイトのページには、広告、独自のアクセス解析、ログインフォーム、YouTubeの埋め込み動画を設置しません。GitHub Pagesでの公開時には、ホスティング事業者のGitHubがセキュリティのためにアクセス元IPアドレス等を記録する場合があります。詳細は<a href="https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement">GitHubのプライバシーに関する説明</a>をご確認ください。</p></section>
+<section><h2>8. 変更とお問い合わせ</h2><p>取得する情報、利用目的、保存方法または機能を変更する際は、このポリシーとアプリ内の案内を更新します。追加の許可が必要な場合は、変更後の処理を始める前に本人の同意を確認します。</p><p>お問い合わせ・削除依頼：<a href="mailto:youtaiq822@gmail.com">youtaiq822@gmail.com</a></p></section></div></main>
+<footer><p>Jazz Study Video Automation · 個人用Windowsツール</p><p><a href="privacy.html">プライバシーポリシー</a> / <a href="terms.html">利用条件</a> / <a href="mailto:youtaiq822@gmail.com">お問い合わせ</a></p><p class="small">文書作成日：2026年10月29日</p></footer>
+</body></html>
+
